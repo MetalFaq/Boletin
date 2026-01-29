@@ -1,0 +1,2 @@
+# Boletin Project
+Project initialized.
