@@ -1,0 +1,6 @@
+google-adk
+google-generativeai
+pandas
+openpyxl
+pypdf
+python-dotenv
