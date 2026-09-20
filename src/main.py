@@ -12,7 +12,7 @@ async def ainput(prompt: str = "") -> str:
     return await asyncio.to_thread(input, prompt)
 
 async def main():
-    base_dir = r"c:\Users\fnrivarola\Desktop\Celula\Boletin"
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     
     print("Initializing Agent... (this may take a moment to load PDFs)")
     try:

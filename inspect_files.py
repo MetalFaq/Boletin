@@ -2,7 +2,7 @@ import pandas as pd
 from pypdf import PdfReader
 import os
 
-base_dir = r"c:\Users\fnrivarola\Desktop\Celula\Boletin\Sources"
+base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Sources")
 excel_path = os.path.join(base_dir, "Temas de interes para monitorear.xlsx")
 pdf1_path = os.path.join(base_dir, "Primera.pdf")
 pdf2_path = os.path.join(base_dir, "Segunda.pdf")

@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from src import loader
 
-base_dir = r"c:\Users\fnrivarola\Desktop\Celula\Boletin"
+base_dir = os.path.dirname(os.path.abspath(__file__))
 sources_dir = os.path.join(base_dir, "Sources")
 excel_path = os.path.join(sources_dir, "Temas de interes para monitorear.xlsx")
 

@@ -21,6 +21,7 @@ load_dotenv()
 
 class BoletinAgentWrapper:
     def __init__(self, base_dir: str):
+        self.base_dir = base_dir
         self.sources_dir = os.path.join(base_dir, "Sources")
         self.excel_path = os.path.join(self.sources_dir, "Temas de interes para monitorear.xlsx")
         
@@ -115,7 +116,7 @@ class BoletinAgentWrapper:
             "error": error
         }
         
-        log_file = "interaction_logs.jsonl"
+        log_file = os.path.join(self.base_dir, "interaction_logs.jsonl")
         try:
             with open(log_file, "a", encoding="utf-8") as f:
                 f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")

@@ -44,10 +44,16 @@ Boletin/
     pip install -r requirements.txt
     ```
 4.  Configurar **.env**:
-    Crea un archivo `.env` en la raíz con tu API Key de Google:
+    Copiar la plantilla `.env.example` como `.env` y configurar tu API Key de Google Gemini:
+    ```bash
+    copy .env.example .env
+    ```
+    Y dentro de `.env`:
     ```text
     GOOGLE_API_KEY=tu_api_key_aqui
     ```
+5.  **Cargar documentos en `Sources/`**:
+    Colocar los PDFs del Boletín Oficial y el archivo `Temas de interes para monitorear.xlsx` dentro de la carpeta `Sources/` (esta carpeta se encuentra ignorada en Git para no versionar documentos pesados).
 
 ## ▶️ Ejecución
 
