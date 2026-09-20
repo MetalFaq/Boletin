@@ -15,15 +15,12 @@ El agente actúa como un analista especializado que:
 
 ```text
 Boletin/
-├── .env                  # Variables de entorno (API Keys) - NO COMPARTIR
+├── .env.example          # Plantilla de variables de entorno (API Keys)
 ├── .gitignore            # Archivos ignorados por Git
-├── interaction_logs.jsonl # Log de todas las interacciones (historial)
 ├── README.md             # Documentación del proyecto
 ├── requirements.txt      # Dependencias de Python
-├── Sources/              # Carpeta de entrada de datos
-│   ├── Primera.pdf       # Archivo PDF a analizar
-│   ├── Segunda.pdf       # Archivo PDF a analizar
-│   └── Temas de interes para monitorear.xlsx  # Lineamientos
+├── Sources/              # Carpeta para documentos de entrada (.pdf, .xlsx)
+│   └── README.md         # Guía de formatos esperados en Sources
 └── src/                  # Código fuente
     ├── agent.py          # Lógica principal del Agente (ADK Wrapper)
     ├── loader.py         # Módulos para cargar PDF y Excel

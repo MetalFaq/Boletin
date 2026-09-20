@@ -21,7 +21,8 @@ ENV/
 !.env.example
 
 # Input sources & large documents
-Sources/
+Sources/*
+!Sources/README.md
 *.pdf
 *.xlsx
 

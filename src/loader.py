@@ -47,6 +47,8 @@ def load_keywords(df: pd.DataFrame) -> List[str]:
     """
     Extracts relevant keywords from the guidelines dataframe for scoring.
     """
+    if df is None or df.empty:
+        return []
     keywords = set()
     # Add words from Title, Subtitle, Jurisdiction
     # Adjust column names based on inspect_files.py output: ['Título', 'Subtítulo', 'Tipo de Norma', 'Jurisdicción']

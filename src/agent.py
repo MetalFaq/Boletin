@@ -23,18 +23,35 @@ class BoletinAgentWrapper:
     def __init__(self, base_dir: str):
         self.base_dir = base_dir
         self.sources_dir = os.path.join(base_dir, "Sources")
+        os.makedirs(self.sources_dir, exist_ok=True)
         self.excel_path = os.path.join(self.sources_dir, "Temas de interes para monitorear.xlsx")
+        
+        api_key = os.getenv("GOOGLE_API_KEY")
+        if not api_key:
+            raise ValueError(
+                "GOOGLE_API_KEY no encontrada en las variables de entorno. "
+                "Crea un archivo .env en la raíz a partir de .env.example con tu API Key de Gemini."
+            )
         
         print(f"Loading PDFs from {self.sources_dir}...")
         self.pdf_texts = loader.load_pdfs_text(self.sources_dir)
-        self.full_pdf_context = "\n\n".join([f"--- FILE: {k} ---\n{v}" for k, v in self.pdf_texts.items()])
+        if self.pdf_texts:
+            self.full_pdf_context = "\n\n".join([f"--- FILE: {k} ---\n{v}" for k, v in self.pdf_texts.items()])
+        else:
+            self.full_pdf_context = "(No hay documentos PDF cargados actualmente en Sources/)"
+            print("[AVISO] No se encontraron archivos PDF en Sources/. El agente funcionará en modo general.")
         
-        print(f"Loading guidelines from {self.excel_path}...")
-        self.guidelines_df = loader.load_guidelines_data(self.excel_path)
-        self.keywords = loader.load_keywords(self.guidelines_df)
+        if os.path.exists(self.excel_path):
+            print(f"Loading guidelines from {self.excel_path}...")
+            self.guidelines_df = loader.load_guidelines_data(self.excel_path)
+            self.keywords = loader.load_keywords(self.guidelines_df)
+        else:
+            print(f"[AVISO] No se encontró {self.excel_path}. El agente operará sin lineamientos específicos.")
+            self.guidelines_df = pd.DataFrame(columns=['Título', 'Subtítulo', 'Jurisdicción', 'Tipo de Norma'])
+            self.keywords = []
         
         # Construct the System Instruction once
-        guidelines_str = self.guidelines_df.to_string()
+        guidelines_str = self.guidelines_df.to_string() if not self.guidelines_df.empty else "(No hay lineamientos específicos cargados)"
         
         system_instruction = f"""
         ROLE:
