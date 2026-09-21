@@ -102,3 +102,29 @@ Todas las interacciones se guardan automáticamente en `interaction_logs.jsonl`.
 
 ---
 **Nota**: Para salir del agente escribe `exit` o presiona `Ctrl+C`.
+## 🚧 Pendientes de Desarrollo y Cómo Llevarlos a Cabo
+
+1. **Ingesta Automatizada Diaria (Scraper / RSS)**:
+   - *Objetivo*: Descargar automáticamente los nuevos ejemplares del Boletín Oficial publicados cada medianoche sin requerir carga manual de archivos.
+   - *Procedimiento*:
+     - Crear un job programado (`src/ingestion_job.py`) que consulte el sitio oficial del Boletín Oficial o su feed RSS.
+     - Descargar el PDF de la Primera Sección y ubicarlo en la carpeta `Sources/`.
+     - Actualizar la fecha de procesamiento en `state.json`.
+
+2. **OCR Avanzado y Extracción de Tablas Complejas (Document AI)**:
+   - *Objetivo*: Procesar anexos escaneados, resoluciones tarifarias o tablas complejas que la extracción directa de texto no recupera adecuadamente.
+   - *Procedimiento*:
+     - En `src/loader.py`, incorporar un fallback a Google Cloud Document AI cuando la extracción de texto arroje baja densidad o páginas escaneadas.
+     - Normalizar el texto y tablas antes de calcular los puntajes de coincidencia.
+
+3. **Sistema de Alertas Proactivas (Webex Teams / Correo Corporativo)**:
+   - *Objetivo*: Notificar de forma inmediata a los equipos de auditoría y legales cuando se identifique una normativa crítica con Score Alto (>=4).
+   - *Procedimiento*:
+     - Agregar un módulo `src/notifications.py` configurable en `.env` con Webhooks de Webex o SMTP.
+     - Emitir la ficha JSON estructurada con el resumen ejecutivo y la página citada.
+
+4. **Exposición como API Microservicio y Despliegue en Cloud Run**:
+   - *Objetivo*: Permitir que otros sistemas de la organización consulten el agente de forma programática.
+   - *Procedimiento*:
+     - Exponer `src/agent.py` mediante endpoints FastAPI (`POST /analyze`, `POST /chat`).
+     - Empaquetar con `Dockerfile` y desplegar en Cloud Run asegurando credenciales vía Google Secret Manager.
